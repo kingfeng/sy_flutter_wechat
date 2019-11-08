@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.util.Log;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -137,11 +138,16 @@ public class SyFlutterWechatPlugin implements MethodCallHandler {
             e.printStackTrace();
           }
 
-          SendMessageToWX.Req req = new SendMessageToWX.Req();
-          req.scene = _convertShareType(shareType);
-          req.message = msg;
-          boolean res = wxApi.sendReq(req);
-          result.success(res);
+          new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+              SendMessageToWX.Req req = new SendMessageToWX.Req();
+              req.scene = _convertShareType(shareType);
+              req.message = msg;
+              boolean res = wxApi.sendReq(req);
+              result.success(res);
+            }
+          });
         }
       }
     ).start();
@@ -159,7 +165,7 @@ public class SyFlutterWechatPlugin implements MethodCallHandler {
       @Override
       public void run() {
         webPage.webpageUrl = webPageUrl;
-        WXMediaMessage msg = new WXMediaMessage(webPage);
+        final WXMediaMessage msg = new WXMediaMessage(webPage);
         msg.title = title;
         msg.description = description;
         try {
@@ -171,11 +177,16 @@ public class SyFlutterWechatPlugin implements MethodCallHandler {
           e.printStackTrace();
         }
 
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.scene = _convertShareType(shareType);
-        req.message = msg;
-        boolean res = wxApi.sendReq(req);
-        result.success(res);
+        new Handler().post(new Runnable() {
+          @Override
+          public void run() {
+            SendMessageToWX.Req req = new SendMessageToWX.Req();
+            req.scene = _convertShareType(shareType);
+            req.message = msg;
+            boolean res = wxApi.sendReq(req);
+            result.success(res);
+          }
+        });
       }
     }
     ).start();
