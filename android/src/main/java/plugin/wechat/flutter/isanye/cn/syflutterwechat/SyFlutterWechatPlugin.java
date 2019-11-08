@@ -138,7 +138,7 @@ public class SyFlutterWechatPlugin implements MethodCallHandler {
             e.printStackTrace();
           }
 
-          new Handler().post(new Runnable() {
+          registrar.activity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
               SendMessageToWX.Req req = new SendMessageToWX.Req();
@@ -177,7 +177,7 @@ public class SyFlutterWechatPlugin implements MethodCallHandler {
           e.printStackTrace();
         }
 
-        new Handler().post(new Runnable() {
+        registrar.activity().runOnUiThread(new Runnable() {
           @Override
           public void run() {
             SendMessageToWX.Req req = new SendMessageToWX.Req();
